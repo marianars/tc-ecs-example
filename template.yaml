@@ -23,7 +23,7 @@ Resources:
       ExecutionRoleArn: arn:aws:iam::898035109227:role/tc-instance-role
       ContainerDefinitions:
         - Name: my-container
-          Image: 898035109227.dkr.ecr.us-east-1.amazonaws.com/tomcat
+          Image: 898035109227.dkr.ecr.us-east-1.amazonaws.com/tomcat:custom
           PortMappings:
             - ContainerPort: 80
               HostPort: 80
