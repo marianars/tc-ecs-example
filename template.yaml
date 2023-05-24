@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  ECSCluster:
+    Type: "AWS::ECS::Cluster"
+    Properties:
+      ClusterName: MyECSCluster
+
+  ECSService:
+    Type: "AWS::ECS::Service"
+    Properties:
+      Cluster: !Ref ECSCluster
+      DesiredCount: 2
+      TaskDefinition: !Ref ECSTaskDefinition
+      LoadBalancers:
+        - ContainerName: my-tomcat2
+          ContainerPort: 80
+          TargetGroupArn: !Ref TargetGroup
+
+  ECSTaskDefinition:
+    Type: "AWS::ECS::TaskDefinition"
+    Properties:
+      Family: MyTaskDefinition
+      ExecutionRoleArn: arn:aws:iam::898035109227:role/tc-instance-role
+      ContainerDefinitions:
+        - Name: my-container
+          Image: 898035109227.dkr.ecr.us-east-1.amazonaws.com/tomcat
+          PortMappings:
+            - ContainerPort: 80
+              HostPort: 80
+          Memory: 512
+          Cpu: 256
+
+  LoadBalancer:
+    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+    Properties:
+      Name: MyLoadBalancer
+      Scheme: internet-facing
+      Type: application
+      Subnets:
+        - subnet-090ab972e047dba95
+        - subnet-09e842d4c20f5cd28
+
+  TargetGroup:
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    Properties:
+      Name: MyTargetGroup
+      Port: 80
+      Protocol: HTTP
+      VpcId: vpc-0e752073907b429e9
+      TargetType: ip
+      HealthCheckIntervalSeconds: 30
+      HealthCheckProtocol: HTTP
+      HealthCheckPath: /
+      Matcher:
+        HttpCode: "200"
+      LoadBalancerArns:
+        - !Ref LoadBalancer
+
