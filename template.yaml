@@ -32,7 +32,7 @@ Resources:
       LaunchType: FARGATE
       DesiredCount: 2
       LoadBalancers:
-        - TargetGroupArn: M!Ref MyTargetGroup
+        - TargetGroupArn: !Ref MyTargetGroup
           ContainerPort: 80
           ContainerName: MyContainer
       NetworkConfiguration:
