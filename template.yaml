@@ -33,7 +33,7 @@ Resources:
       DesiredCount: 2
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroup
-          ContainerPort: 80
+          ContainerPort: 8080
           ContainerName: MyContainer
       NetworkConfiguration:
         AwsvpcConfiguration:
@@ -59,7 +59,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       Name: MyTargetGroup
-      Port: 80
+      Port: 8080
       Protocol: HTTP
       TargetType: ip
       VpcId: vpc-0e752073907b429e9
@@ -76,7 +76,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       LoadBalancerArn: !Ref LoadBalancer
-      Port: 80
+      Port: 8080
       Protocol: HTTP
       DefaultActions:
         - Type: forward
