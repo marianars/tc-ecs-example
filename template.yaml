@@ -44,7 +44,8 @@ Resources:
     Properties:
       Name: MyLoadBalancer
       Subnets:
-        - subnet-090ab972e047dba95 
+        - subnet-090ab972e047dba95
+        - subnet-09e842d4c20f5cd28
       SecurityGroups:
         - sg-01332fa17ff9c3b22
       Type: application
