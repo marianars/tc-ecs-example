@@ -71,7 +71,8 @@ Resources:
       UnhealthyThresholdCount: 2
       Matcher:
         HttpCode: '200'
-      LoadBalancerArns: !Ref LoadBalancer
+      LoadBalancerArns: 
+        - !Ref LoadBalancer
 
   Listener:
     Type: AWS::ElasticLoadBalancingV2::Listener
