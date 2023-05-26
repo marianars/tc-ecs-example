@@ -19,7 +19,7 @@ Resources:
         - Name: MyContainer
           Image: 898035109227.dkr.ecr.us-east-1.amazonaws.com/tomcat:custom
           PortMappings:
-            - ContainerPort: 8081
+            - ContainerPort: 8080
               Protocol: tcp
 
   Service:
@@ -34,7 +34,45 @@ Resources:
       NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets:
-            - subnet-0fb466cba99fc96c5 
+            - subnet-090ab972e047dba95 
           SecurityGroups:
-            - sg-0125dd265256f113d
+            - sg-0bf743b8afc86f03e
           AssignPublicIp: ENABLED
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: MyLoadBalancer
+      Subnets:
+        - subnet-090ab972e047dba95 
+      SecurityGroups:
+        - sg-01332fa17ff9c3b22
+      Type: application
+      Scheme: internet-facing
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: MyTargetGroup
+      Port: 80
+      Protocol: HTTP
+      TargetType: ip
+      VpcId: vpc-0e752073907b429e9
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /health
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 5
+      UnhealthyThresholdCount: 2
+      Matcher:
+        HttpCode: '200'
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
