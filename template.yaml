@@ -31,10 +31,10 @@ Resources:
       TaskDefinition: !Ref TaskDefinition
       LaunchType: FARGATE
       DesiredCount: 2
-      LoadBalancers:
-        - TargetGroupArn: !Ref TargetGroup
-          ContainerPort: 8080
-          ContainerName: MyContainer
+      LoadBalancerName: !Ref LoadBalancer
+      TargetGroupArn: !Ref TargetGroup
+      ContainerPort: 8080
+      ContainerName: MyContainer
       NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets:
@@ -71,8 +71,6 @@ Resources:
       UnhealthyThresholdCount: 2
       Matcher:
         HttpCode: '200'
-      LoadBalancerArns: 
-        - !Ref LoadBalancer
 
   Listener:
     Type: AWS::ElasticLoadBalancingV2::Listener
