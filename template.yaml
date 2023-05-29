@@ -31,9 +31,10 @@ Resources:
       TaskDefinition: !Ref TaskDefinition
       LaunchType: FARGATE
       DesiredCount: 2
-      LoadBalancerName: !Ref LoadBalancer
-      ContainerPort: 8080
-      ContainerName: MyContainer
+      LoadBalancer: 
+        TargetGroupArn: !Ref TargetGroup
+        ContainerPort: 8080
+        ContainerName: MyContainer
       NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets:
