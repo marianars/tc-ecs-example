@@ -38,7 +38,8 @@ Resources:
       NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets:
-            - subnet-090ab972e047dba95 
+            - subnet-090ab972e047dba95
+            - subnet-09e842d4c20f5cd28
           SecurityGroups:
             - sg-0bf743b8afc86f03e
           AssignPublicIp: ENABLED
@@ -64,7 +65,7 @@ Resources:
       TargetType: ip
       VpcId: vpc-0e752073907b429e9
       HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /health
+      HealthCheckPath: /sample-web
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 5
@@ -76,7 +77,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       LoadBalancerArn: !Ref LoadBalancer
-      Port: 8080
+      Port: 8081
       Protocol: HTTP
       DefaultActions:
         - Type: forward
