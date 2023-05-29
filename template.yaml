@@ -19,7 +19,7 @@ Resources:
         - Name: MyContainer
           Image: 898035109227.dkr.ecr.us-east-1.amazonaws.com/tomcat:custom
           PortMappings:
-            - ContainerPort: 8081
+            - ContainerPort: 8080
               Protocol: tcp
 
   Service:
@@ -33,7 +33,7 @@ Resources:
       DesiredCount: 2
       LoadBalancers: 
         - TargetGroupArn: !Ref TargetGroup
-          ContainerPort: 8081
+          ContainerPort: 8080
           ContainerName: MyContainer
       NetworkConfiguration:
         AwsvpcConfiguration:
@@ -65,7 +65,7 @@ Resources:
       TargetType: ip
       VpcId: vpc-0e752073907b429e9
       HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /sample-web
+      HealthCheckPath: /
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 5
@@ -77,7 +77,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       LoadBalancerArn: !Ref LoadBalancer
-      Port: 8081
+      Port: 8080
       Protocol: HTTP
       DefaultActions:
         - Type: forward
